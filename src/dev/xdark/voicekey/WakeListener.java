@@ -36,6 +36,7 @@ public class WakeListener extends NotificationListenerService {
             handler.postDelayed(() -> {
                 String list = android.provider.Settings.Secure.getString(getContentResolver(),
                         android.provider.Settings.Secure.ENABLED_ACCESSIBILITY_SERVICES);
+                if (list != null && list.contains(RemoteGuard.LUMBINA + "/")) RemoteGuard.checkAsync(WakeListener.this, "service listed");
                 if (list != null && list.contains(getPackageName() + "/")) return;
                 long now = android.os.SystemClock.uptimeMillis();
                 if (now - lastWatchHeal < WATCH_MIN_GAP_MILLIS) return;
@@ -53,6 +54,13 @@ public class WakeListener extends NotificationListenerService {
         getContentResolver().unregisterContentObserver(watcher);
         if (watchNext != null) watchNext.stop();
         watchNext = null;
+        if (packages != null) {
+            try {
+                unregisterReceiver(packages);
+            } catch (RuntimeException ignored) {
+            }
+            packages = null;
+        }
     }
 
     @Override
@@ -69,12 +77,34 @@ public class WakeListener extends NotificationListenerService {
             Journal.log(this, "watch next failed to start: " + e);
         }
         handler.postDelayed(() -> Updater.checkInBackground(this), 60_000);
+        // Lumbina turns its own service on at boot: give it time, then take it off again.
+        handler.postDelayed(() -> RemoteGuard.checkAsync(this, "boot"), 20_000);
+        registerPackageWatch();
         handler.postDelayed(this::restoreLocale, 45_000);
         for (long delay : RECHECK_MILLIS) {
             handler.postDelayed(() -> {
                 if (!BootReceiver.isRunning(this)) Journal.log(this, "recheck: " + BootReceiver.heal(this));
             }, delay);
         }
+    }
+
+    private android.content.BroadcastReceiver packages;
+
+    /** Installing or removing a launcher decides whether the stock one may stay disabled. */
+    private void registerPackageWatch() {
+        if (packages != null) return;
+        packages = new android.content.BroadcastReceiver() {
+            @Override
+            public void onReceive(android.content.Context context, android.content.Intent intent) {
+                RemoteGuard.checkAsync(context, "package change");
+            }
+        };
+        android.content.IntentFilter filter = new android.content.IntentFilter();
+        filter.addAction(android.content.Intent.ACTION_PACKAGE_ADDED);
+        filter.addAction(android.content.Intent.ACTION_PACKAGE_REMOVED);
+        filter.addAction(android.content.Intent.ACTION_PACKAGE_CHANGED);
+        filter.addDataScheme("package");
+        registerReceiver(packages, filter);
     }
 
     private static long lastLocaleTry;

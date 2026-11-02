@@ -184,6 +184,27 @@ public class SettingsActivity extends Activity {
         }
     }
 
+    /** Listed as enabled, but not bound by the system. */
+    private String crashedServices() {
+        String enabled = android.provider.Settings.Secure.getString(
+                getContentResolver(), android.provider.Settings.Secure.ENABLED_ACCESSIBILITY_SERVICES);
+        if (enabled == null) return "нет";
+        java.util.List<String> bound = new java.util.ArrayList<>();
+        for (android.accessibilityservice.AccessibilityServiceInfo info :
+                getSystemService(android.view.accessibility.AccessibilityManager.class)
+                        .getEnabledAccessibilityServiceList(android.accessibilityservice.AccessibilityServiceInfo.FEEDBACK_ALL_MASK)) {
+            bound.add(info.getId());
+        }
+        StringBuilder out = new StringBuilder();
+        for (String s : enabled.split(":")) {
+            if (s.isEmpty()) continue;
+            String id = android.content.ComponentName.unflattenFromString(s) == null
+                    ? s : android.content.ComponentName.unflattenFromString(s).flattenToShortString();
+            if (!bound.contains(s) && !bound.contains(id)) out.append(out.length() > 0 ? ", " : "").append(id);
+        }
+        return out.length() == 0 ? "нет" : out.toString();
+    }
+
     @Override
     protected void onCreate(Bundle state) {
         super.onCreate(state);
@@ -340,6 +361,11 @@ public class SettingsActivity extends Activity {
                 update(Updater.pending(SettingsActivity.this) != null);
             }
         });
+        rows.add(new Toggle("Защита пульта", "Выключает службу Lumbina, из-за которой пульт повторяет нажатия, и родной лаунчер Hisense, если стоит другой",
+                () -> Prefs.remoteGuard(this), on -> {
+                    Prefs.setRemoteGuard(this, on);
+                    if (on) RemoteGuard.checkAsync(this, "settings"); else RemoteGuard.release(this);
+                }));
         rows.add(new Toggle("Проверять обновления", "Раз в полдня, когда проектор включён; об итоге скажет надпись сверху",
                 () -> Prefs.autoUpdate(this), on -> Prefs.setAutoUpdate(this, on)));
 
@@ -439,6 +465,7 @@ public class SettingsActivity extends Activity {
                     break;
                 }
             }
+            summary.append("Упавшие службы: ").append(crashedServices()).append('\n');
             java.io.StringWriter journal = new java.io.StringWriter();
             Journal.tail(this, new java.io.PrintWriter(journal), 200);
             String filterLine = "";

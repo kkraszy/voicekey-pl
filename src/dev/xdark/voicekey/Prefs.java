@@ -123,6 +123,24 @@ final class Prefs {
         prefs(c).edit().putBoolean("sounds", on).apply();
     }
 
+    /** Keep Lumbina's accessibility service off and the stock Hisense launcher out of the way. */
+    static boolean remoteGuard(Context c) {
+        return prefs(c).getBoolean("remote_guard", true);
+    }
+
+    static void setRemoteGuard(Context c, boolean on) {
+        prefs(c).edit().putBoolean("remote_guard", on).apply();
+    }
+
+    /** True when we, not the user, disabled the stock launcher: only then do we give it back. */
+    static boolean launcherDisabledByUs(Context c) {
+        return prefs(c).getBoolean("launcher_disabled_by_us", false);
+    }
+
+    static void setLauncherDisabledByUs(Context c, boolean on) {
+        prefs(c).edit().putBoolean("launcher_disabled_by_us", on).apply();
+    }
+
     /** Look for a newer release now and then, without being asked. */
     static boolean autoUpdate(Context c) {
         return prefs(c).getBoolean("auto_update", true);
