@@ -33,9 +33,9 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 /**
- * Russian over the apps that show Chinese or English: Hisense's own apps can't be overlaid on
+ * Polish over the apps that show Chinese or English: Hisense's own apps can't be overlaid on
  * this firmware (Android 11 lets no unsigned resource overlay at them), so their labels are
- * covered on screen instead. Each label the dictionary knows gets a plate with the Russian text,
+ * covered on screen instead. Each label the dictionary knows gets a plate with the Polish text,
  * in the label's text size, on the colour beside it. Dictionaries are assets/translate/<package>.json,
  * built by tools/build-dict.py. Main thread, except the screenshot callback's executor.
  */
@@ -152,7 +152,7 @@ final class Translator {
             Rect r = new Rect();
             n.getBoundsInScreen(r);
             if (r.width() <= 0 || r.height() <= 0) continue;
-            // Russian runs longer: the plate may grow right, up to what sits beside the label.
+            // Polish runs longer: the plate may grow right, up to what sits beside the label.
             Rect box = container(n, r);
             r.right = Math.max(r.right, roomRight(n, r, service.getResources().getDisplayMetrics().widthPixels));
             float size = 0;
@@ -244,7 +244,7 @@ final class Translator {
             tv.setMaxLines(oneLine ? 1 : Math.max(1, (int) (l.bounds.height() / (size * 1.15f))));
             tv.setGravity(Gravity.START | Gravity.CENTER_VERTICAL);
             tv.setIncludeFontPadding(false);
-            // Russian runs longer: shrink to fit the label's box, never below 55%.
+            // Polish runs longer: shrink to fit the label's box, never below 55%.
             tv.setAutoSizeTextTypeUniformWithConfiguration(
                     Math.max(8, (int) (size * 0.55f)), Math.max(9, (int) size), 1, TypedValue.COMPLEX_UNIT_PX);
             tv.setEllipsize(android.text.TextUtils.TruncateAt.END);
@@ -391,7 +391,7 @@ final class Translator {
         }
     }
 
-    /** One app's phrases: whole labels, then labels with values in them ("Всего: 12"). */
+    /** One app's phrases: whole labels, then labels with values in them ("Razem: 12"). */
     private static final class Dict {
         final Map<String, String> exact = new HashMap<>();
         final List<Pattern> patterns = new ArrayList<>();

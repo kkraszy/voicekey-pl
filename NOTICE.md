@@ -1,19 +1,19 @@
-# Сторонние компоненты
+# Komponenty zewnętrzne
 
-VoiceKey собирается вместе с двумя библиотеками; их скачивает `tools/fetch-libs.sh`, в репозитории их нет.
+VoiceKey jest budowany razem z dwiema bibliotekami; pobiera je `tools/fetch-libs.sh`, w repozytorium ich nie ma.
 
-| Компонент | Лицензия |
+| Komponent | Licencja |
 |---|---|
 | [Vosk](https://github.com/alphacep/vosk-api) (`vosk-android` 0.3.75) | Apache-2.0 |
-| [JNA](https://github.com/java-native-access/jna) 5.18.1 | Apache-2.0 или LGPL-2.1+ |
+| [JNA](https://github.com/java-native-access/jna) 5.18.1 | Apache-2.0 lub LGPL-2.1+ |
 
-Русскую модель распознавания `vosk-model-small-ru` (Apache-2.0, авторы — Alpha Cephei) приложение
-само скачивает с alphacephei.com, когда вы включаете офлайн-распознавание.
+Polski model rozpoznawania `vosk-model-small-pl` (Apache-2.0, autorzy — Alpha Cephei) aplikacja
+pobiera sama z alphacephei.com, gdy włączysz rozpoznawanie offline.
 
-Приложение `org.vidda.googlevoicesearch` (Vidda-Voice-Service, чужая сборка xxivanoi, 4pda, основана на
-приложении Google), через которое работает онлайн-распознавание, в код VoiceKey не входит. Его неизменённый
-APK лежит отдельным файлом в релизе `voice-service`, только чтобы VoiceKey мог поставить его по просьбе
-пользователя; права на него принадлежат его авторам.
+Aplikacja `org.vidda.googlevoicesearch` (Vidda-Voice-Service, cudza kompilacja xxivanoi, 4pda, oparta na
+aplikacji Google), przez którą działa rozpoznawanie online, nie wchodzi w skład kodu VoiceKey. Jej niezmieniony
+APK leży jako osobny plik w wydaniu `voice-service`, tylko po to, by VoiceKey mógł ją zainstalować na prośbę
+użytkownika; prawa do niej należą do jej autorów.
 
-Словари экранного переводчика (`assets/translate/`) основаны на русском переводе строк прошивки из приложения
-VIDDA Nova; его автор разрешил использовать этот перевод.
+Słowniki tłumacza ekranowego (`assets/translate/`) wywodzą się z rosyjskiego tłumaczenia tekstów oprogramowania
+z aplikacji VIDDA Nova (jego autor zezwolił na wykorzystanie tego tłumaczenia), przełożonego na polski.

@@ -57,7 +57,7 @@ final class SelfAdb {
             try {
                 socket.connect(new InetSocketAddress("127.0.0.1", PORT), 3_000);
             } catch (IOException e) {
-                throw new Failure("отладка по сети выключена");
+                throw new Failure("debugowanie sieciowe wyłączone");
             }
             // The user may take a while with the system's "Allow USB debugging?" question.
             socket.setSoTimeout(90_000);
@@ -70,7 +70,7 @@ final class SelfAdb {
             while (true) {
                 Message m = read(in);
                 if (m.command == A_CNXN) break;
-                if (m.command != A_AUTH || m.arg0 != 1) throw new Failure("неожиданный ответ adbd");
+                if (m.command != A_AUTH || m.arg0 != 1) throw new Failure("nieoczekiwana odpowiedź adbd");
                 if (!signed) {
                     signed = true;
                     send(out, A_AUTH, 2, 0, sign(key.getPrivate(), m.data));
@@ -94,11 +94,11 @@ final class SelfAdb {
         } catch (Failure e) {
             throw e;
         } catch (java.net.SocketTimeoutException e) {
-            throw new Failure("не дождались подтверждения на экране");
+            throw new Failure("nie doczekano się potwierdzenia na ekranie");
         } catch (IOException e) {
-            throw new Failure("запрос отладки отклонён");
+            throw new Failure("prośba o debugowanie odrzucona");
         } catch (java.security.GeneralSecurityException e) {
-            throw new Failure("ключ: " + e);
+            throw new Failure("klucz: " + e);
         }
     }
 

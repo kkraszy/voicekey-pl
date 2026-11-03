@@ -4,7 +4,7 @@ build/
 *.keystore
 libs/*.aar
 __pycache__/
-# локальные копии прошивки и снимки состояния проектора
+# lokalne kopie oprogramowania i zrzuty stanu projektora
 backup-hisense-apks/
 snapshot-*/
 a11y-before.txt

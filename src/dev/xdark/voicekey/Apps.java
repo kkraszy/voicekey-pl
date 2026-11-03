@@ -63,24 +63,24 @@ final class Apps {
         return null;
     }
 
-    /** "Открываю …" */
+    /** "Otwieram …" */
     static String accusative(Command.Target target) {
         switch (target) {
             case YOUTUBE: return "YouTube";
-            case LAMPA: return "Лампу";
-            case KINOPOISK: return "Кинопоиск";
-            case VK: return "VK Видео";
+            case LAMPA: return "Lampę";
+            case KINOPOISK: return "Kinopoisk";
+            case VK: return "VK Video";
             default: return "Rutube";
         }
     }
 
-    /** "Ищу в …" */
+    /** "Szukam w …" */
     static String locative(Command.Target target) {
         switch (target) {
             case YOUTUBE: return "YouTube";
-            case LAMPA: return "Лампе";
-            case KINOPOISK: return "Кинопоиске";
-            case VK: return "VK Видео";
+            case LAMPA: return "Lampie";
+            case KINOPOISK: return "Kinopoisku";
+            case VK: return "VK Video";
             default: return "Rutube";
         }
     }
@@ -159,7 +159,7 @@ final class Apps {
 
     /**
      * Kinopoisk has no search screen to link to, but answers Android TV's global search. Its own
-     * order puts "Долгая дорога в дюнах" before "Дюна", so the title is matched here: the same
+     * order puts "Długa droga w wydmach" before "Diuna", so the title is matched here: the same
      * title first, then one that starts with the query, then one that has it; Kinopoisk's order
      * within each. Blocks: call off the main thread.
      */
@@ -177,10 +177,10 @@ final class Apps {
                 String details = text(c, SearchManager.SUGGEST_COLUMN_TEXT_2);
                 Journal.log(context, "  kinopoisk has: " + title + " / " + details);
                 String have = comparable(title);
-                // Whole words: "дюна" is not in "долгая дорога в дюнах".
+                // Whole words: "diuna" is not in "długa droga w diunach".
                 String h = " " + have + " ", w = " " + wanted + " ";
-                // "игра престолов 2 сезон" is the title said with more. Only somewhere inside it
-                // ("Золотая дюна" for "дюна") is a different title: shown, not opened.
+                // "gra o tron sezon 2" is the title said with more. Only somewhere inside it
+                // ("Złota diuna" for "diuna") is a different title: shown, not opened.
                 int score = have.equals(wanted) ? 3
                         : h.startsWith(w) || (!have.isEmpty() && w.startsWith(h)) ? 2
                         : h.contains(w) ? 1 : 0;
@@ -199,10 +199,10 @@ final class Apps {
         return best;
     }
 
-    /** Lower case, "е" for "ё", letters and digits only: "Дюна: Часть вторая" ~ "дюна часть вторая". */
+    /** Lower case, "е" for "ё" (Kinopoisk's titles are Russian), letters and digits only: "Diuna: Część druga" ~ "diuna część druga". */
     private static String comparable(String s) {
         if (s == null) return "";
-        return s.toLowerCase(java.util.Locale.forLanguageTag("ru")).replace('ё', 'е')
+        return s.toLowerCase(java.util.Locale.ROOT).replace('ё', 'е')
                 .replaceAll("[^\\p{L}\\p{N}]+", " ").trim();
     }
 

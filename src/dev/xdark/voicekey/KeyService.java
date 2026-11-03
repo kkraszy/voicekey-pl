@@ -25,7 +25,7 @@ import java.util.Set;
 
 /**
  * Takes the remote's mic button from the firmware's assistant. A press listens for a command
- * ("открой Лампу", "найди на ютубе …"); a hold searches in the app on screen, if it takes a
+ * ("otwórz Lampę", "znajdź na YouTube …"); a hold searches in the app on screen, if it takes a
  * search from outside (TizenTube, LAMPA, Kinopoisk, VK Video), or anywhere else Google's search
  * panel, which searches all apps.
  */
@@ -52,7 +52,7 @@ public class KeyService extends AccessibilityService {
         return seen.contains(pkg);
     }
 
-    /** Russian plates over the apps that show Chinese or English. */
+    /** Polish plates over the apps that show Chinese or English. */
     private Translator translator;
 
     @Override
@@ -234,7 +234,7 @@ public class KeyService extends AccessibilityService {
         if (service == null) return false;
         new Thread(() -> {
             Runnable ask = () -> service.handler.post(() -> service.showHint(
-                    "Rutube: откройте поиск (лупа слева) — «" + query + "» впишу сам"));
+                    "Rutube: otwórz wyszukiwanie (lupa po lewej) — „" + query + "” wpiszę sam"));
             RutubeTyper.Result result = new RutubeTyper(service, ask).type(query);
             service.handler.post(service::hideHint);
             Journal.log(service, "rutube: typed «" + query + "»: " + result);
@@ -247,7 +247,7 @@ public class KeyService extends AccessibilityService {
         if (event.getScanCode() != SCAN_MIC && event.getKeyCode() != KEYCODE_HISENSE_VOICE) {
             return false;
         }
-        // Off in the settings (or "отдай микрофон"): the button is the firmware's or another app's.
+        // Off in the settings (or "oddaj mikrofon"): the button is the firmware's or another app's.
         if (!Prefs.micOn(this)) return false;
         // Down, repeats and up are all ours, so the assistant never sees the button.
         if (event.getAction() == KeyEvent.ACTION_DOWN && event.getRepeatCount() == 0) {

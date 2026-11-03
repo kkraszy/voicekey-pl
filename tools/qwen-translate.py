@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Translates what VIDDA Nova's dictionaries leave out, with the local Qwen (llama-swap,
 OpenAI API on 127.0.0.1:9292). Input: untranslated.py's JSON. Output: a cache
-{"<package>": {"<source>": "<Russian>"}} that is extended run after run, never redone.
+{"<package>": {"<source>": "<Polish>"}} that is extended run after run, never redone.
 
 usage: qwen-translate.py <untranslated.json> <cache.json> [batch size, default 60]
 """
@@ -35,15 +35,15 @@ CONTEXT = {
     "com.hisense.screen": "projector screen and picture adjustment",
 }
 
-SYSTEM = """You translate user-interface strings of a Hisense/Vidda laser projector (Android TV) into Russian.
+SYSTEM = """You translate user-interface strings of a Hisense/Vidda laser projector (Android TV) into Polish.
 Rules:
-- Write natural, concise Russian as in Russian-language Android TV menus. Buttons and menu items short.
+- Write natural, concise Polish as in Polish-language Android TV menus. Buttons and menu items short.
 - Source strings are Chinese or English; translate both.
 - Keep every placeholder exactly as is and keep their count: %s, %d, %1$s, %2$d, %.1f.
 - Keep line breaks (\\n) where they are.
 - Do not translate brand names, standards, codecs and abbreviations: HDMI, ARC, eARC, MHL, AV, ATV, DTV, DTMB, DVB-C, DVB-T, CATV, USB, Wi-Fi, Bluetooth, DLNA, Miracast, AirPlay, Dolby, HDR, 4K, AI, IP, MAC, Vidda, Hisense, VIDAA.
-- Upper-case source items (OK, CANCEL, DONE) become normal-case Russian (ОК, Отмена, Готово).
-Answer with one JSON object only: each input number (as a string key) mapped to its Russian translation. No comments."""
+- Upper-case source items (OK, CANCEL, DONE) become normal-case Polish (OK, Anuluj, Gotowe).
+Answer with one JSON object only: each input number (as a string key) mapped to its Polish translation. No comments."""
 
 
 def ask(package, items):

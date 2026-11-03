@@ -45,7 +45,7 @@ public class BootReceiver extends BroadcastReceiver {
     /** Returns what it found or did, for the hand-run screen. */
     static String heal(Context context) {
         String ours = new ComponentName(context, KeyService.class).flattenToString();
-        if (isRunning(context)) return "служба работает";
+        if (isRunning(context)) return "usługa działa";
         try {
             String enabled = Settings.Secure.getString(
                     context.getContentResolver(), Settings.Secure.ENABLED_ACCESSIBILITY_SERVICES);
@@ -67,10 +67,10 @@ public class BootReceiver extends BroadcastReceiver {
             put(context, String.join(":", others));
             Settings.Secure.putInt(context.getContentResolver(), Settings.Secure.ACCESSIBILITY_ENABLED, 1);
             Log.i(KeyService.TAG, "service re-enabled");
-            return "служба включена";
+            return "usługa włączona";
         } catch (SecurityException e) {
             Log.w(KeyService.TAG, "no WRITE_SECURE_SETTINGS", e);
-            return "нет WRITE_SECURE_SETTINGS — выдайте по adb";
+            return "brak WRITE_SECURE_SETTINGS — nadaj przez adb";
         }
     }
 
@@ -98,7 +98,7 @@ public class BootReceiver extends BroadcastReceiver {
             KeyService.setOwnsMic(this, true);
             String healed = heal(this);
             Toast.makeText(this, "VoiceKey: " + healed, Toast.LENGTH_LONG).show();
-            KeyService.flash(wasGiven ? "VoiceKey: кнопка микрофона снова у VoiceKey" : "VoiceKey: " + healed, 4_000);
+            KeyService.flash(wasGiven ? "VoiceKey: przycisk mikrofonu znów należy do VoiceKey" : "VoiceKey: " + healed, 4_000);
             finish();
         }
     }

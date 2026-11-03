@@ -1,18 +1,18 @@
 {
 "exact": {
-"Camera Upgrade": "Обновление камеры",
-"There is camera upgrading file in U disk, will you upgrade it?": "На USB-накопителе есть файл обновления камеры. Обновить?",
-"Cancel": "Отмена",
-"Upgrade": "Обновить",
-"Storage space is not enough. Please press OK to uninstall not used app": "Недостаточно места. Нажмите OK, чтобы удалить неиспользуемое приложение.",
-"Not found upgrading package in U disk": "Пакет обновления не найден на USB-накопителе",
-"Radar Firmware Upgrade": "Обновление прошивки радара",
-"There is radar firmware upgrading file in U disk, will you upgrade it?": "На USB-накопителе есть файл обновления прошивки радара. Обновить?",
-"System Info": "Системная информация",
-"There is upgrading package in U disk, will you upgrade it?": "На USB-накопителе есть пакет обновления. Обновить?",
-"Upgrading package in U disk is the same, will you upgrade it again?": "Пакет обновления на USB-накопителе совпадает с текущим. Повторить обновление?",
-"Touch Firmware Upgrade": "Обновление прошивки сенсора",
-"There is touch firmware upgrading file in U disk, will you upgrade it?": "На USB-накопителе есть файл обновления прошивки сенсора. Обновить?"
+"Camera Upgrade": "Aktualizacja kamery",
+"There is camera upgrading file in U disk, will you upgrade it?": "Na nośniku USB jest plik aktualizacji kamery. Zaktualizować?",
+"Cancel": "Anuluj",
+"Upgrade": "Aktualizuj",
+"Storage space is not enough. Please press OK to uninstall not used app": "Za mało miejsca. Naciśnij OK, aby odinstalować nieużywaną aplikację.",
+"Not found upgrading package in U disk": "Nie znaleziono pakietu aktualizacji na nośniku USB",
+"Radar Firmware Upgrade": "Aktualizacja oprogramowania radaru",
+"There is radar firmware upgrading file in U disk, will you upgrade it?": "Na nośniku USB jest plik aktualizacji oprogramowania radaru. Zaktualizować?",
+"System Info": "Informacje o systemie",
+"There is upgrading package in U disk, will you upgrade it?": "Na nośniku USB jest pakiet aktualizacji. Zaktualizować?",
+"Upgrading package in U disk is the same, will you upgrade it again?": "Pakiet na nośniku USB jest taki sam jak obecny. Zaktualizować ponownie?",
+"Touch Firmware Upgrade": "Aktualizacja oprogramowania panelu dotykowego",
+"There is touch firmware upgrading file in U disk, will you upgrade it?": "Na nośniku USB jest plik aktualizacji panelu dotykowego. Zaktualizować?"
 },
 "patterns": []
 }

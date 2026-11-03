@@ -4,8 +4,8 @@
 For each app: the strings the app shows by default (Chinese on this firmware), taken from its
 APK on the projector, joined by resource name with VIDDA Nova's Russian translation of the same
 strings. Out comes assets/translate/<package>.json:
-  {"exact": {"声音模式": "Режим звука", ...},
-   "patterns": [["^结果「(.+?)」：(.+?)$", "Результаты для «\\1»: \\2"], ...]}
+  {"exact": {"声音模式": "Tryb dźwięku", ...},
+   "patterns": [["^结果「(.+?)」：(.+?)$", "Wyniki dla „\\1”: \\2"], ...]}
 
 usage: build-dict.py <nova overlays dir> <out dir> <package>=<nova xml>[,<nova xml>...] ...
 Needs adb connected to the projector and aapt2 (ANDROID_HOME build-tools 35).

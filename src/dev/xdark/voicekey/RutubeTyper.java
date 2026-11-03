@@ -10,7 +10,7 @@ import java.util.Locale;
 /**
  * Rutube takes no search from outside: no link, no search intent, and its search field is a
  * label filled by its own on-screen keyboard. So the query is typed there key by key, as the
- * remote would: open the search from the sidebar, "Очистить", the letters (switching between
+ * remote would (the labels are Rutube's own, so they stay Russian): open the search from the sidebar, "Очистить", the letters (switching between
  * "Рус", "Eng" and "!#1" layouts), "Найти". Runs off the main thread: it waits for the screens.
  */
 final class RutubeTyper {
@@ -48,7 +48,10 @@ final class RutubeTyper {
             SystemClock.sleep(300); // Let the screen settle before typing.
         }
         press("Очистить");
-        for (char c : query.toLowerCase(Locale.forLanguageTag("ru")).toCharArray()) {
+        // Rutube's keyboard has no Polish letters: "ą", "ł" are typed as "a", "l".
+        String plain = java.text.Normalizer.normalize(query.toLowerCase(Locale.ROOT).replace('ł', 'l'),
+                java.text.Normalizer.Form.NFD).replaceAll("\\p{Mn}+", "");
+        for (char c : plain.toCharArray()) {
             typeChar(c);
         }
         press("Найти");

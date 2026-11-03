@@ -10,7 +10,7 @@ import java.util.List;
 /**
  * Futuba (a Rutube client for TV) opens its search for a SEARCH intent only when it starts: a
  * running one keeps its screen. Its search field is a real EditText, so the query is set there
- * whole and sent with the IME's Enter: the sidebar's "Поиск", the text, Enter. Off the main thread.
+ * whole and sent with the IME's Enter: the sidebar's "Поиск" (Futuba's own Russian label), the text, Enter. Off the main thread.
  */
 final class FutubaTyper {
     enum Result { DONE, ALREADY, NO_APP, NO_SEARCH_SCREEN }

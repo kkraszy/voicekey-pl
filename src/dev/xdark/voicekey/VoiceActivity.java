@@ -60,7 +60,7 @@ public class VoiceActivity extends Activity implements RecognitionListener {
                 == android.content.pm.PackageManager.PERMISSION_GRANTED;
     }
 
-    private static final String HINT = "Скажите: «открой Кинопоиск», «найди на ютубе …», «найди в Лампе …»";
+    private static final String HINT = "Powiedz: „otwórz Kinopoisk”, „znajdź na YouTube …”, „znajdź w Lampie …”";
 
     private static final long SHOW_PHRASE_MILLIS = 900;
     private static final long SHOW_ERROR_MILLIS = 1800;
@@ -101,18 +101,18 @@ public class VoiceActivity extends Activity implements RecognitionListener {
             // Without Google's voice service the request would hang on "connecting" for ever.
             Journal.log(this, "online recognizer missing: " + (ModelStore.ready(this) ? "offline instead" : "no fallback"));
             if (!ModelStore.ready(this)) {
-                fail("Нет голосового сервиса Google. Настройки VoiceKey → «Настройка: голосовой сервис» или офлайн-модель");
+                fail("Brak usługi głosowej Google. Ustawienia VoiceKey → „Konfiguracja: usługa głosowa” lub model offline");
                 return;
             }
             wantsOffline = true;
         }
         if (wantsOffline && ModelStore.ready(this)) {
-            show(State.CONNECTING, "Загружаю офлайн-распознавание…");
+            show(State.CONNECTING, "Wczytuję rozpoznawanie offline…");
             offline = new OfflineEngine(this, this);
             offline.start();
             return;
         }
-        show(State.CONNECTING, wantsOffline ? "Офлайн-модель не скачана — слушаю онлайн" : "Подключаюсь…");
+        show(State.CONNECTING, wantsOffline ? "Model offline nie jest pobrany — słucham online" : "Łączę…");
         handler.postDelayed(() -> {
             if (!heardReady && !done) {
                 Journal.log(this, "recognizer silent for " + CONNECT_MILLIS + " ms");
@@ -124,7 +124,7 @@ public class VoiceActivity extends Activity implements RecognitionListener {
         recognizer.startListening(new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH)
                 .putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE, getPackageName())
                 .putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_WEB_SEARCH)
-                .putExtra(RecognizerIntent.EXTRA_LANGUAGE, "ru-RU")
+                .putExtra(RecognizerIntent.EXTRA_LANGUAGE, "pl-PL")
                 .putExtra(RecognizerIntent.EXTRA_PARTIAL_RESULTS, true)
                 .putExtra(RecognizerIntent.EXTRA_MAX_RESULTS, 5));
     }
@@ -225,7 +225,7 @@ public class VoiceActivity extends Activity implements RecognitionListener {
     @Override
     public void onReadyForSpeech(Bundle params) {
         heardReady = true;
-        show(State.LISTENING, target == null ? "Говорите команду" : "Поиск в " + Apps.locative(target) + " — говорите");
+        show(State.LISTENING, target == null ? "Powiedz polecenie" : "Szukanie w " + Apps.locative(target) + " — mów");
         beep(ToneGenerator.TONE_PROP_BEEP, 120);
     }
 
@@ -237,7 +237,7 @@ public class VoiceActivity extends Activity implements RecognitionListener {
 
     @Override
     public void onEndOfSpeech() {
-        if (!done) show(State.WORKING, "Распознаю…");
+        if (!done) show(State.WORKING, "Rozpoznaję…");
     }
 
     @Override
@@ -257,14 +257,14 @@ public class VoiceActivity extends Activity implements RecognitionListener {
         done = true;
         List<String> heard = alternatives(results);
         if (heard.isEmpty()) {
-            fail("Не расслышал, попробуйте ещё раз");
+            fail("Nie dosłyszałem, spróbuj jeszcze raz");
             return;
         }
         Journal.log(this, "heard (" + (target == null ? "command" : target) + " over " + foreground
                 + (offline != null ? ", offline" : "") + "): " + heard);
         if (getIntent().getBooleanExtra(EXTRA_DRY, false)) {
-            show(State.WORKING, "Пробный режим: только показываю");
-            showWords("«" + heard.get(0) + "»");
+            show(State.WORKING, "Tryb próbny: tylko pokazuję");
+            showWords("„" + heard.get(0) + "”");
             handler.postDelayed(this::finish, 3_000);
             return;
         }
@@ -272,18 +272,18 @@ public class VoiceActivity extends Activity implements RecognitionListener {
             searchIn(target, heard.get(0));
             return;
         }
-        String said = heard.get(0).toLowerCase(java.util.Locale.forLanguageTag("ru"));
-        if (said.matches(".*\\b(отдай|отпусти|освободи)\\b.*(микрофон|кнопк).*")) {
+        String said = heard.get(0).toLowerCase(java.util.Locale.forLanguageTag("pl"));
+        if (said.matches(".*\\b(oddaj|zwolnij|puść|pusc)\\b.*(mikrofon|przycisk).*")) {
             Prefs.setMicOn(this, false);
             Journal.log(this, "mic button given away");
-            show(State.WORKING, "Кнопка микрофона отдана. Вернуть — в настройках VoiceKey");
+            show(State.WORKING, "Przycisk mikrofonu oddany. Przywrócisz go w ustawieniach VoiceKey");
             handler.postDelayed(this::finish, 3_500);
             return;
         }
-        if (said.matches(".*\\b(выключи|отключи|убери)\\b.*перев.*") || said.matches(".*\\b(включи|верни)\\b.*перев.*")) {
-            boolean on = !said.matches(".*\\b(выключи|отключи|убери)\\b.*");
+        if (said.matches(".*\\b(wyłącz|wylacz|ukryj|schowaj)\\b.*tłumacz.*") || said.matches(".*\\b(włącz|wlacz|przywróć|przywroc)\\b.*tłumacz.*")) {
+            boolean on = !said.matches(".*\\b(wyłącz|wylacz|ukryj|schowaj)\\b.*");
             Prefs.setTranslate(this, on);
-            show(State.WORKING, on ? "Перевод включён" : "Перевод выключен");
+            show(State.WORKING, on ? "Tłumaczenie włączone" : "Tłumaczenie wyłączone");
             later(() -> { });
             return;
         }
@@ -298,28 +298,28 @@ public class VoiceActivity extends Activity implements RecognitionListener {
         if (command.action == Command.Action.SEARCH) {
             searchIn(command.target, command.query);
         } else if (command.action == Command.Action.OPEN) {
-            show(State.WORKING, "Открываю");
+            show(State.WORKING, "Otwieram");
             showWords(Apps.accusative(command.target));
             later(() -> Apps.open(this, command.target));
         } else {
-            showWords("«" + command.query + "»");
-            fail("Не понял команду. " + HINT);
+            showWords("„" + command.query + "”");
+            fail("Nie zrozumiałem polecenia. " + HINT);
         }
     }
 
     private void searchIn(Command.Target target, String query) {
-        showWords("«" + query + "»");
+        showWords("„" + query + "”");
         if (target == Command.Target.KINOPOISK) {
             searchKinopoisk(query);
         } else {
-            show(State.WORKING, "Ищу в " + Apps.locative(target));
+            show(State.WORKING, "Szukam w " + Apps.locative(target));
             later(() -> Apps.search(this, target, query, foreground));
         }
     }
 
     /** Asks Kinopoisk off the main thread, then opens the best match's page. */
     private void searchKinopoisk(String query) {
-        show(State.WORKING, "Ищу в Кинопоиске…");
+        show(State.WORKING, "Szukam w Kinopoisku…");
         Context app = getApplicationContext();
         new Thread(() -> {
             Apps.Found found = Apps.findInKinopoisk(app, query);
@@ -327,15 +327,15 @@ public class VoiceActivity extends Activity implements RecognitionListener {
             runOnUiThread(() -> {
                 if (isFinishing()) return;
                 if (found == null) {
-                    fail("В Кинопоиске ничего не нашлось");
+                    fail("W Kinopoisku nic nie znaleziono");
                     return;
                 }
                 if (!found.matches) {
-                    showWords("Похожее: " + found.title);
-                    fail("В Кинопоиске нет «" + query + "»");
+                    showWords("Podobne: " + found.title);
+                    fail("W Kinopoisku nie ma „" + query + "”");
                     return;
                 }
-                show(State.WORKING, "Открываю в Кинопоиске");
+                show(State.WORKING, "Otwieram w Kinopoisku");
                 showWords(found.details == null || found.details.isEmpty()
                         ? found.title : found.title + " · " + found.details);
                 later(() -> Apps.start(app, found.open));
@@ -361,18 +361,18 @@ public class VoiceActivity extends Activity implements RecognitionListener {
         switch (error) {
             case SpeechRecognizer.ERROR_NO_MATCH:
             case SpeechRecognizer.ERROR_SPEECH_TIMEOUT:
-                fail("Не расслышал, попробуйте ещё раз");
+                fail("Nie dosłyszałem, spróbuj jeszcze raz");
                 break;
             case SpeechRecognizer.ERROR_NETWORK:
             case SpeechRecognizer.ERROR_NETWORK_TIMEOUT:
             case SpeechRecognizer.ERROR_SERVER:
-                fail("Нет связи с Google — можно включить офлайн-распознавание в настройках");
+                fail("Brak połączenia z Google — możesz włączyć rozpoznawanie offline w ustawieniach");
                 break;
             case SpeechRecognizer.ERROR_AUDIO:
-                fail("Нет звука с пульта");
+                fail("Brak dźwięku z pilota");
                 break;
             default:
-                fail("Ошибка распознавания (" + error + ")");
+                fail("Błąd rozpoznawania (" + error + ")");
         }
     }
 

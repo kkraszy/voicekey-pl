@@ -49,7 +49,7 @@ final class RemoteGuard {
         if (!Prefs.remoteGuard(context)) return;
         if (dropLumbinaService(context)) {
             Journal.log(context, "remote guard (" + reason + "): Lumbina service turned off");
-            KeyService.flash("Выключил службу Lumbina: из-за неё пульт повторял нажатия", 6_000);
+            KeyService.flash("Wyłączyłem usługę Lumbina: przez nią pilot powtarzał naciśnięcia", 6_000);
         }
         launcher(context, reason);
     }

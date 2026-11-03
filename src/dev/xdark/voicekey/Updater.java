@@ -101,7 +101,7 @@ final class Updater {
                 boolean found = check(context);
                 Journal.log(context, "update check: " + (found ? "new " + Prefs.foundUpdate(context)[0] : "up to date"));
                 if (found) KeyService.flash("VoiceKey " + Prefs.foundUpdate(context)[0]
-                        + " готова: Настройки VoiceKey → Обновление", 8_000);
+                        + " do pobrania: Ustawienia VoiceKey → Aktualizacja", 8_000);
             } catch (Exception e) {
                 Journal.log(context, "update check failed: " + e);
             }
@@ -165,7 +165,7 @@ final class Updater {
                 out.write(buf, 0, n);
                 digest.update(buf, 0, n);
                 done += n;
-                if (total > 0) progress.report("Скачиваю " + done * 100 / total + "%");
+                if (total > 0) progress.report("Pobieram " + done * 100 / total + "%");
             }
         } finally {
             http.disconnect();
@@ -180,7 +180,7 @@ final class Updater {
     }
 
     private static void commit(Context context, File apk, String pkg, Progress progress) throws Exception {
-        progress.report("Устанавливаю…");
+        progress.report("Instaluję…");
 
         PackageInstaller installer = context.getPackageManager().getPackageInstaller();
         PackageInstaller.SessionParams params = new PackageInstaller.SessionParams(
@@ -206,8 +206,8 @@ final class Updater {
                     } else {
                         String message = intent.getStringExtra(PackageInstaller.EXTRA_STATUS_MESSAGE);
                         Journal.log(c, "install result " + status + ": " + message);
-                        progress.report(status == PackageInstaller.STATUS_SUCCESS ? "Готово"
-                                : "Не вышло: " + message + " — OK, ещё раз");
+                        progress.report(status == PackageInstaller.STATUS_SUCCESS ? "Gotowe"
+                                : "Nie udało się: " + message + " — OK, jeszcze raz");
                         c.getApplicationContext().unregisterReceiver(this);
                     }
                 }

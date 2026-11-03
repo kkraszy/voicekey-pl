@@ -220,7 +220,7 @@ final class WatchNext {
                     .putExtra(EXTRA_LAMPA, film);
             Bitmap poster = m.getBitmap(MediaMetadata.METADATA_KEY_ART);
             if (poster == null) poster = m.getBitmap(MediaMetadata.METADATA_KEY_DISPLAY_ICON);
-            save(key, LAMPA_KEY, TvContract.WatchNextPrograms.TYPE_MOVIE, film, "Лампа", length, at, poster, open);
+            save(key, LAMPA_KEY, TvContract.WatchNextPrograms.TYPE_MOVIE, film, "Lampa", length, at, poster, open);
             Journal.log(context, "watch next: «" + film + "» left in Vimu at " + at / 1000 + " s");
         } catch (RuntimeException e) {
             Journal.log(context, "watch next failed: " + e);

@@ -2,104 +2,105 @@
 
 <h1 align="center">VoiceKey</h1>
 
-<p align="center"><b>Голос с кнопки микрофона на проекторе Hisense / Vidda.</b><br>Сказали — открылось. Без облака приложений и без Google TV.</p>
+<p align="center"><b>Głos z przycisku mikrofonu na projektorze Hisense / Vidda.</b><br>Powiedziałeś — otworzyło się. Bez chmury aplikacji i bez Google TV.</p>
 
-VoiceKey — приложение для Android TV-прошивок Hisense (проверено на Vidda C2 Ultra, VIDAA на Android 11). Оно забирает кнопку микрофона на пульте и делает с ней то, чего не умеет штатный ассистент.
+VoiceKey to aplikacja dla oprogramowania Android TV od Hisense (sprawdzona na Vidda C2 Ultra, VIDAA na Androidzie 11). Przejmuje przycisk mikrofonu na pilocie i robi z nim to, czego nie potrafi fabryczny asystent.
 
-- **Голосовые команды.** Нажали кнопку и сказали: «открой Лампу», «найди на ютубе трейлер Дюны», «найди в кинопоиске Интерстеллар» или просто название. Работает с TizenTube, Lampa, Кинопоиском, VK Видео, Rutube.
-- **Поиск внутри открытого приложения.** Удержание кнопки — поиск там, где вы сейчас.
-- **Два распознавателя.** Онлайн (Google) или офлайн (Vosk, русская модель ~46 МБ, скачивается один раз).
-- **«Продолжить просмотр».** Недосмотренные в TizenTube и Lampa видео попадают в ряд лаунчера.
-- **Экранный переводчик.** Китайские и английские надписи в системных настройках прошивки показываются по-русски поверх экрана (словари — в [docs/translator.md](docs/translator.md)).
-- **Возвращается после сна.** Прошивка при засыпании убивает почти все приложения вместе со службой доступности; VoiceKey сам включает её обратно.
-- **Обновляется само.** Раз в полдня проверяет новые версии на GitHub; когда выйдет новая, скажет надписью сверху, а установить — в настройках, «Обновление» (система спросит подтверждение).
-- **Настройки на экране.** Что делает нажатие и удержание, время удержания, движок распознавания, звуки, переводчик.
+- **Polecenia głosowe.** Naciśnij przycisk i powiedz: „otwórz Lampę”, „znajdź na YouTube zwiastun Diuny”, „znajdź w Kinopoisku Interstellar” albo po prostu tytuł. Działa z TizenTube, Lampa, Kinopoiskiem, VK Video, Rutube.
+- **Wyszukiwanie w otwartej aplikacji.** Przytrzymanie przycisku — wyszukiwanie tam, gdzie właśnie jesteś.
+- **Dwa silniki rozpoznawania.** Online (Google) lub offline (Vosk, polski model ~53 MB, pobierany raz).
+- **„Kontynuuj oglądanie”.** Niedokończone filmy z TizenTube i Lampy trafiają do rzędu launchera.
+- **Tłumacz ekranowy.** Chińskie i angielskie napisy w ustawieniach systemowych są pokazywane po polsku na wierzchu ekranu (słowniki — w [docs/translator.md](docs/translator.md)).
+- **Wraca po uśpieniu.** Oprogramowanie przy usypianiu zabija prawie wszystkie aplikacje razem z usługą ułatwień dostępu; VoiceKey sam włącza ją z powrotem.
+- **Aktualizuje się sam.** Co pół dnia sprawdza nowe wersje na GitHubie; gdy wyjdzie nowa, powie o tym napisem u góry, a zainstalujesz ją w ustawieniach, „Aktualizacja” (system poprosi o potwierdzenie).
+- **Ustawienia na ekranie.** Co robi naciśnięcie i przytrzymanie, czas przytrzymania, silnik rozpoznawania, dźwięki, tłumacz.
 
 <p align="center">
-  <img src="docs/screenshots/settings.png" width="48%" alt="Настройки VoiceKey">
-  <img src="docs/screenshots/settings-update.png" width="48%" alt="Обновление в настройках">
+  <img src="docs/screenshots/settings.png" width="48%" alt="Ustawienia VoiceKey">
+  <img src="docs/screenshots/settings-update.png" width="48%" alt="Aktualizacja w ustawieniach">
 </p>
 
 <p align="center">
-  <img src="docs/screenshots/voice.png" width="96%" alt="Голосовая команда: плашка «Говорите команду» и результат">
+  <img src="docs/screenshots/voice.png" width="96%" alt="Polecenie głosowe: plakietka „Powiedz polecenie” i wynik">
 </p>
 
 <p align="center">
-  <img src="docs/screenshots/voice-youtube.png" width="96%" alt="«Открой на ютубе трейлер Дюна 3 часть»: плашка «Ищу в YouTube»">
+  <img src="docs/screenshots/voice-youtube.png" width="96%" alt="Wyszukiwanie zwiastuna na YouTube: plakietka „Szukam w YouTube”">
 </p>
 
 <p align="center">
-  <img src="docs/screenshots/google-panel.png" width="60%" alt="Панель поиска Google: «фильм Дюна», доступно в Lampa">
+  <img src="docs/screenshots/google-panel.png" width="60%" alt="Panel wyszukiwania Google: film „Diuna”, dostępny w Lampie">
 </p>
 
 <p align="center">
-  <img src="docs/screenshots/translation.png" width="40%" alt="Русские надписи поверх системных настроек прошивки">
+  <img src="docs/screenshots/translation.png" width="40%" alt="Przetłumaczone napisy na ustawieniach systemowych">
 </p>
 
-## Установка
+## Instalacja
 
-1. Скачайте `VoiceKey.apk` со страницы [Releases](../../releases/latest) (или соберите сами, см. ниже) и поставьте на проектор любым способом: с флешки через файловый менеджер, по сети, через `adb install`.
-2. Включите на проекторе в настройках разработчика **«USB debugging»** и **«Wi-Fi debugging»** (раздел «Отладка»). Если прошивка прячет настройки, откройте их через файловый менеджер: системное приложение Settings → «открыть в системе».
-3. Откройте VoiceKey из лаунчера. Вверху списка появятся шаги **«Настройка: …»** — они показываются, пока не сделаны, и пропадают сами. Нажмите OK на **«Настройка: выдать права»**: на экране появится запрос «Allow USB debugging?» — отметьте «Always allow» и нажмите Allow. VoiceKey сам выдаст себе микрофон, обновления, подписку на уведомления и `WRITE_SECURE_SETTINGS`, а потом включит свою службу. Компьютер не нужен. Отладку после этого можно выключить.
-4. Если так не вышло, одна команда с компьютера в той же сети закрывает то же самое:
+1. Pobierz `VoiceKey.apk` ze strony [Releases](../../releases/latest) (albo zbuduj sam, patrz niżej) i zainstaluj na projektorze dowolnym sposobem: z pendrive’a przez menedżer plików, przez sieć, przez `adb install`.
+2. Włącz na projektorze w opcjach programisty **„USB debugging”** i **„Wi-Fi debugging”** (sekcja „Debugowanie”). Jeśli oprogramowanie ukrywa ustawienia, otwórz je przez menedżer plików: aplikacja systemowa Settings → „otwórz w systemie”.
+3. Otwórz VoiceKey z launchera. Na górze listy pojawią się kroki **„Konfiguracja: …”** — widać je, dopóki nie są zrobione, potem znikają same. Naciśnij OK na **„Konfiguracja: nadaj uprawnienia”**: na ekranie pojawi się prośba „Allow USB debugging?” — zaznacz „Always allow” i naciśnij Allow. VoiceKey sam nada sobie mikrofon, aktualizacje, dostęp do powiadomień i `WRITE_SECURE_SETTINGS`, a potem włączy swoją usługę. Komputer nie jest potrzebny. Debugowanie można potem wyłączyć.
+4. Jeśli to nie zadziała, jedno polecenie z komputera w tej samej sieci załatwia to samo:
 
    ```sh
-   adb connect <адрес-проектора>:5555
+   adb connect <adres-projektora>:5555
    adb shell pm grant dev.xdark.voicekey android.permission.WRITE_SECURE_SETTINGS
    ```
 
-   Откройте VoiceKey ещё раз — остальные шаги закроются.
-5. Для онлайн-распознавания нужен голосовой сервис `org.vidda.googlevoicesearch` (Vidda-Voice-Service, сборка xxivanoi с 4pda). Если его нет, вверху настроек появится шаг **«Настройка: голосовой сервис Google»**: OK скачает его из релиза [voice-service](../../releases/tag/voice-service) (контрольная сумма проверяется), на экране системы нажмите «Установить», микрофон сервису VoiceKey выдаст сам. Без сервиса панель микрофона сама переходит на офлайн-модель (если скачана) или подсказывает, что делать, и не виснет на «Подключаюсь…»; можно и сразу выбрать офлайн-движок.
+   Otwórz VoiceKey jeszcze raz — pozostałe kroki zamkną się same.
+5. Rozpoznawanie online wymaga usługi głosowej `org.vidda.googlevoicesearch` (Vidda-Voice-Service, kompilacja xxivanoi z 4pda). Jeśli jej nie ma, na górze ustawień pojawi się krok **„Konfiguracja: usługa głosowa Google”**: OK pobierze ją z wydania [voice-service](../../releases/tag/voice-service) (suma kontrolna jest sprawdzana), na ekranie systemu naciśnij „Zainstaluj”, a mikrofon nada jej VoiceKey sam. Bez tej usługi panel mikrofonu sam przechodzi na model offline (jeśli pobrany) albo podpowiada, co zrobić, i nie wisi na „Łączę…”; można też od razu wybrać silnik offline.
 
-Что даёт каждое разрешение:
+Co daje każde uprawnienie:
 
-| Шаг | Зачем | Без отладки |
+| Krok | Po co | Bez debugowania |
 |---|---|---|
-| Микрофон | распознавателю речи нужно разрешение вызывающего | да, диалог |
-| Обновления из приложения | установка новой версии | да, диалог прошивки |
-| Служба кнопки микрофона | перехват кнопки | только если в прошивке есть экран специальных возможностей |
-| Возврат после сна | прошивка при засыпании убивает службу; по подписке система запускает VoiceKey снова | только если есть экран доступа к уведомлениям |
-| `WRITE_SECURE_SETTINGS` | включает два предыдущих шага сам, в том числе после сна | нет: через «Настройка: выдать права» или adb |
+| Mikrofon | rozpoznawanie mowy wymaga uprawnienia od wywołującego | tak, okno dialogowe |
+| Aktualizacje z aplikacji | instalacja nowej wersji | tak, okno oprogramowania |
+| Usługa przycisku mikrofonu | przechwytywanie przycisku | tylko jeśli oprogramowanie ma ekran ułatwień dostępu |
+| Powrót po uśpieniu | oprogramowanie przy usypianiu zabija usługę; dzięki dostępowi do powiadomień system znów uruchamia VoiceKey | tylko jeśli jest ekran dostępu do powiadomień |
+| `WRITE_SECURE_SETTINGS` | włącza dwa poprzednie kroki sam, także po uśpieniu | nie: przez „Konfiguracja: nadaj uprawnienia” albo adb |
 
-**Язык системы.** В настройках VoiceKey есть строка «Язык системы»: она показывает текущий язык, а OK или стрелки переключают русский / English (меняется `persist.sys.locale`, нужна перезагрузка проектора). Значение читается обратно, и строка честно пишет, что получилось; если `setprop` не принялся, VoiceKey пробует второй способ — просит систему сменить язык так, как это делают приложения-переключатели языка. Если прошивка при загрузке возвращает свой язык, VoiceKey после включения проектора сам ставит выбранный заново. В самом низу настроек есть скрытый раздел «Отладка» (открывается по OK): состояние языка, две пробы и журнал — чтобы разобраться, что делает прошивка. Работает при включённой отладке, как и «Настройка: выдать права». Пригодится там, где в прошивке нет русского: приложения со своими русскими строками (например, Lumbina) заговорят по-русски.
+**Język systemu.** W ustawieniach VoiceKey jest wiersz „Język systemu”: pokazuje bieżący język, a OK lub strzałki przełączają polski / English (zmienia się `persist.sys.locale`, potrzebny restart projektora). Wartość jest odczytywana z powrotem i wiersz uczciwie pisze, co wyszło; jeśli `setprop` nie zadziałał, VoiceKey próbuje drugiego sposobu — prosi system o zmianę języka tak, jak robią to aplikacje do przełączania języka. Jeśli oprogramowanie przy starcie przywraca swój język, VoiceKey po włączeniu projektora sam ustawia wybrany ponownie. Na samym dole ustawień jest ukryta sekcja „Debugowanie” (otwiera się przez OK): stan języka, dwie próby i dziennik — żeby ustalić, co robi oprogramowanie. Działa przy włączonym debugowaniu, tak jak „Konfiguracja: nadaj uprawnienia”. Przydaje się tam, gdzie oprogramowanie nie ma polskiego: aplikacje z własnymi polskimi tekstami zaczną mówić po polsku.
 
-Проверка: `adb shell am start -n dev.xdark.voicekey/.TestPhrase --es phrase 'открой лампу'` — выполнит фразу так, будто её сказали.
+Test: `adb shell am start -n dev.xdark.voicekey/.TestPhrase --es phrase 'otwórz lampę'` — wykona frazę tak, jakby została powiedziana.
 
-## Обновление
+## Aktualizacja
 
-Из приложения: настройки VoiceKey → «Обновление» → OK. Приложение скачает `VoiceKey.apk` из последнего релиза, сверит контрольную сумму и передаст установщику; на экране системы нужно нажать «Установить». Тихо обновиться Android 11 не даёт. Обновление принимается только если подписано тем же ключом, что и установленное приложение.
-Вручную: `adb install -r VoiceKey.apk`.
+Z aplikacji: ustawienia VoiceKey → „Aktualizacja” → OK. Aplikacja pobierze `VoiceKey.apk` z najnowszego wydania, sprawdzi sumę kontrolną i przekaże do instalatora; na ekranie systemu trzeba nacisnąć „Zainstaluj”. Cichej aktualizacji Android 11 nie pozwala. Aktualizacja jest przyjmowana tylko wtedy, gdy jest podpisana tym samym kluczem, co zainstalowana aplikacja.
+Ręcznie: `adb install -r VoiceKey.apk`.
 
-## Как пользоваться
+## Jak używać
 
-- **Нажатие** на кнопку микрофона — сказать команду.
-- **Удержание** — голосовой поиск в приложении на экране (или панель Google, если приложение не умеет).
-- Что делает каждое из двух и сколько держать — в настройках VoiceKey (сам значок в лаунчере).
-- Приложения называйте как угодно: «ютуб», «лампа», «кинопоиск», «вк видео», «рутуб».
+- **Naciśnięcie** przycisku mikrofonu — powiedz polecenie.
+- **Przytrzymanie** — wyszukiwanie głosowe w aplikacji na ekranie (albo panel Google, jeśli aplikacja tego nie umie).
+- Co robi każde z nich i jak długo trzymać — w ustawieniach VoiceKey (ikona w launcherze).
+- Aplikacje nazywaj po swojemu: „youtube”, „lampa”, „kinopoisk”, „vk video”, „rutube”.
+- Inne polecenia: „wyłącz tłumaczenie” / „włącz tłumaczenie”, „oddaj mikrofon”.
 
-## Если что-то не так
+## Gdy coś nie działa
 
-- **Журнал работы:** `adb shell dumpsys activity service dev.xdark.voicekey/.KeyService` (и `/.WakeListener`, если служба не работает).
-- **Служба не включилась после сна:** запустите значок VoiceKey из лаунчера — он включит её вручную и скажет, как прошло.
-- **Любое нажатие на пульте «прожимается» несколько раз, а Home открывает китайский лаунчер.** Замечено на Vidda C2 Ultra вместе с лаунчером [Lumbina](https://github.com/Kasavy/lumbina) 0.0.6–0.0.7: её «служба пульта» в специальных возможностях падает и множит нажатия (проверено сырыми событиями `getevent`: аппаратно кнопка срабатывает один раз; перезапуск службы не помогает). Строка **«Защита пульта»** в настройках VoiceKey (включена по умолчанию) сама выключает эту службу, в том числе после перезагрузки, где Lumbina включает её заново. Заодно она отключает родной лаунчер Hisense (`com.oversea.aslauncher`), пока стоит любой другой сторонний лаунчер, чтобы Home не уходил в него; удалили сторонний лаунчер — родной включается обратно. Если выключить строку, родной лаунчер тоже возвращается. Для отключения лаунчера нужна отладка по сети, как и для остальных шагов настройки.
+- **Dziennik pracy:** `adb shell dumpsys activity service dev.xdark.voicekey/.KeyService` (oraz `/.WakeListener`, jeśli usługa nie działa).
+- **Usługa nie włączyła się po uśpieniu:** uruchom ikonę VoiceKey z launchera — włączy ją ręcznie i powie, jak poszło.
+- **Każde naciśnięcie na pilocie „wciska się” kilka razy, a Home otwiera chiński launcher.** Zauważone na Vidda C2 Ultra razem z launcherem [Lumbina](https://github.com/Kasavy/lumbina) 0.0.6–0.0.7: jej „usługa pilota” w ułatwieniach dostępu pada i mnoży naciśnięcia (sprawdzone surowymi zdarzeniami `getevent`: sprzętowo przycisk działa raz; restart usługi nie pomaga). Wiersz **„Ochrona pilota”** w ustawieniach VoiceKey (domyślnie włączony) sam wyłącza tę usługę, także po restarcie, gdy Lumbina włącza ją ponownie. Przy okazji wyłącza fabryczny launcher Hisense (`com.oversea.aslauncher`), dopóki zainstalowany jest dowolny inny launcher, żeby Home do niego nie uciekał; po usunięciu innego launchera fabryczny włącza się z powrotem. Po wyłączeniu tego wiersza fabryczny launcher też wraca. Do wyłączenia launchera potrzebne jest debugowanie sieciowe, tak jak do pozostałych kroków konfiguracji.
 
-## Сборка
+## Budowanie
 
-Без Gradle: `aapt2 → javac → d8 → zipalign → apksigner`.
+Bez Gradle: `aapt2 → javac → d8 → zipalign → apksigner`.
 
-Нужны JDK 17+ (путь в `JAVA_HOME`, по умолчанию `~/.local/opt/jdk`), Android SDK с build-tools 35.0.0 и platform android-30 (`ANDROID_HOME`, по умолчанию `~/.local/opt/android-sdk`), `curl`, `zip`.
+Potrzebne: JDK 17+ (ścieżka w `JAVA_HOME`, domyślnie `~/.local/opt/jdk`), Android SDK z build-tools 35.0.0 i platformą android-30 (`ANDROID_HOME`, domyślnie `~/.local/opt/android-sdk`), `curl`, `zip`.
 
 ```sh
-tools/fetch-libs.sh   # Vosk и JNA с Maven Central, с проверкой контрольных сумм
-./build.sh            # получится VoiceKey.apk
+tools/fetch-libs.sh   # Vosk i JNA z Maven Central, ze sprawdzeniem sum kontrolnych
+./build.sh            # powstanie VoiceKey.apk
 ```
 
-Ключ подписи `voicekey.keystore` создаётся при первой сборке рядом с проектом. Храните его: обновления должны быть подписаны тем же ключом. Приложение собирается под arm64.
+Klucz podpisu `voicekey.keystore` tworzy się przy pierwszym budowaniu obok projektu. Przechowuj go: aktualizacje muszą być podpisane tym samym kluczem. Aplikacja jest budowana pod arm64.
 
-## Устройство
+## Budowa
 
-Исходники в `src/dev/xdark/voicekey`, у каждого класса есть описание в начале файла. Ключевые: `KeyService` (перехват кнопки), `RemoteMic` (звук с микрофона пульта), `Command` (разбор фразы), `VoiceActivity` (распознавание), `WakeListener`/`BootReceiver` (возврат после сна), `Translator` (экранный переводчик), `WatchNext` (продолжить просмотр).
+Źródła w `src/dev/xdark/voicekey`, każda klasa ma opis na początku pliku. Kluczowe: `KeyService` (przechwytywanie przycisku), `RemoteMic` (dźwięk z mikrofonu pilota), `Command` (analiza frazy), `VoiceActivity` (rozpoznawanie), `WakeListener`/`BootReceiver` (powrót po uśpieniu), `Translator` (tłumacz ekranowy), `WatchNext` (kontynuuj oglądanie).
 
-## Лицензия
+## Licencja
 
-[GPL-3.0-or-later](LICENSE). Сторонние компоненты — в [NOTICE.md](NOTICE.md).
+[GPL-3.0-or-later](LICENSE). Komponenty zewnętrzne — w [NOTICE.md](NOTICE.md).

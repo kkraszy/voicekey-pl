@@ -14,12 +14,12 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
 /**
- * The offline Russian model for Vosk: downloaded once from its authors (alphacephei.com) into the
- * app's own files and unpacked there. Small model: about 46 MB to fetch, 90 MB unpacked.
+ * The offline Polish model for Vosk: downloaded once from its authors (alphacephei.com) into the
+ * app's own files and unpacked there. Small model: about 53 MB to fetch.
  */
 final class ModelStore {
-    static final String URL = "https://alphacephei.com/vosk/models/vosk-model-small-ru-0.22.zip";
-    static final long DOWNLOAD_BYTES = 46_236_750L;
+    static final String URL = "https://alphacephei.com/vosk/models/vosk-model-small-pl-0.22.zip";
+    static final long DOWNLOAD_BYTES = 52_979_372L;
 
     interface Progress {
         /** [done] of [total] bytes fetched; then -1 while unpacking. */
@@ -29,7 +29,7 @@ final class ModelStore {
     private ModelStore() {}
 
     static File dir(Context c) {
-        return new File(c.getFilesDir(), "vosk-ru");
+        return new File(c.getFilesDir(), "vosk-pl");
     }
 
     /** Unpacked and whole: the last file the unpacking writes is the marker. */
@@ -39,12 +39,12 @@ final class ModelStore {
 
     static void delete(Context c) {
         deleteTree(dir(c));
-        new File(c.getFilesDir(), "vosk-ru.zip.part").delete();
+        new File(c.getFilesDir(), "vosk-pl.zip.part").delete();
     }
 
     /** Blocking: call off the main thread. Throws on any failure, leaving nothing half-done. */
     static void download(Context c, Progress progress) throws IOException {
-        File part = new File(c.getFilesDir(), "vosk-ru.zip.part");
+        File part = new File(c.getFilesDir(), "vosk-pl.zip.part");
         HttpURLConnection conn = (HttpURLConnection) new URL(URL).openConnection();
         conn.setConnectTimeout(20_000);
         conn.setReadTimeout(30_000);
@@ -68,7 +68,7 @@ final class ModelStore {
         progress.onProgress(-1, -1);
         File target = dir(c);
         deleteTree(target);
-        File tmp = new File(c.getFilesDir(), "vosk-ru.tmp");
+        File tmp = new File(c.getFilesDir(), "vosk-pl.tmp");
         deleteTree(tmp);
         unzip(part, tmp);
         part.delete();

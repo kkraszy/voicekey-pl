@@ -7,10 +7,10 @@ import android.content.SharedPreferences;
 final class Prefs {
     /** What a press or a hold of the mic button does. */
     enum Action {
-        COMMAND("Голосовая команда"),
-        APP_SEARCH("Поиск в текущем приложении"),
-        GOOGLE_PANEL("Панель поиска Google"),
-        NOTHING("Ничего");
+        COMMAND("Polecenie głosowe"),
+        APP_SEARCH("Szukaj w bieżącej aplikacji"),
+        GOOGLE_PANEL("Panel wyszukiwania Google"),
+        NOTHING("Nic");
 
         final String title;
 
@@ -21,8 +21,8 @@ final class Prefs {
 
     /** Who turns speech into text. */
     enum Engine {
-        ONLINE("Онлайн — Google", "точнее, нужен интернет"),
-        OFFLINE("Офлайн — Vosk", "без интернета, проще");
+        ONLINE("Online — Google", "dokładniej, wymaga internetu"),
+        OFFLINE("Offline — Vosk", "bez internetu, prościej");
 
         final String title;
         final String hint;
@@ -43,7 +43,7 @@ final class Prefs {
         return context.getSharedPreferences(FILE, Context.MODE_PRIVATE);
     }
 
-    /** The system language chosen in the settings ("ru" or "en"), or null; put back after boot, as the firmware resets it. */
+    /** The system language chosen in the settings ("pl" or "en"), or null; put back after boot, as the firmware resets it. */
     static String locale(Context c) {
         return prefs(c).getString("locale", null);
     }

@@ -8,12 +8,12 @@ import java.util.Locale;
 import java.util.Set;
 
 /**
- * A spoken command, said freely: "открой Лампу", "открой трейлер паука на ютубе",
- * "найди в кинопоиске Дюна", "найди в вк видео обзор", or just "интерстеллар".
+ * A spoken command, said freely: "otwórz Lampę", "otwórz zwiastun spidermana na youtube",
+ * "znajdź w kinopoisku Diuna", "znajdź w vk video recenzję", or just "interstellar".
  *
- * A leading verb is dropped; an app named anywhere ("на ютубе", "в Лампе", "в вк видео") is
+ * A leading verb is dropped; an app named anywhere ("na youtubie", "w Lampie", "w vk video") is
  * where to search; the rest is the query. An app named with nothing else is opened. With no app
- * named, the query goes to the default app. The recognizer garbles app names ("на ютуби"), so
+ * named, the query goes to the default app. The recognizer garbles app names ("na jutubie"), so
  * they are matched loosely.
  */
 final class Command {
@@ -34,15 +34,15 @@ final class Command {
     }
 
     private static final Set<String> VERBS = new HashSet<>(Arrays.asList(
-            "открой", "открыть", "откройте", "запусти", "запустить", "включи", "включить", "поставь",
-            "найди", "найти", "найдите", "поищи", "поискать", "ищи", "искать", "покажи", "показать",
-            "хочу", "давай", "посмотреть", "посмотрим", "смотреть"));
-    private static final Set<String> FILLERS = new HashSet<>(Arrays.asList("пожалуйста", "мне", "ка"));
-    private static final Set<String> PREPOSITIONS = new HashSet<>(Arrays.asList("на", "в", "во"));
+            "otwórz", "otworz", "otworzyć", "otwórzcie", "uruchom", "uruchomić", "włącz", "wlacz", "włączyć",
+            "puść", "pusc", "znajdź", "znajdz", "znaleźć", "wyszukaj", "szukaj", "poszukaj", "wyszukać",
+            "pokaż", "pokaz", "pokazać", "chcę", "chce", "obejrzeć", "obejrzec", "zobaczyć", "oglądać"));
+    private static final Set<String> FILLERS = new HashSet<>(Arrays.asList("proszę", "prosze", "mi"));
+    private static final Set<String> PREPOSITIONS = new HashSet<>(Arrays.asList("na", "w", "we"));
 
     /**
      * The best of the recognizer's alternatives: the likeliest that names an app, as names get
-     * garbled ("на ютуби") more than the rest; else the likeliest of all.
+     * garbled ("na jutubie") more than the rest; else the likeliest of all.
      */
     static Command best(List<String> heard, Target fallback) {
         Command first = null;
@@ -55,8 +55,8 @@ final class Command {
     }
 
     static Command parse(String phrase, Target fallback) {
-        // The recognizer may punctuate: "Найди на ютубе: «Дюна»." Hyphens and dots inside words stay.
-        String cleaned = phrase.replaceAll("[:;,!?«»\"“”]", " ").trim()
+        // The recognizer may punctuate: "Znajdź na YouTube: „Diuna”." Hyphens and dots inside words stay.
+        String cleaned = phrase.replaceAll("[:;,!?«»„\"“”]", " ").trim()
                 .replaceAll("^[\\p{Punct}]+|[\\p{Punct}]+$", "");
         List<String> words = new ArrayList<>(Arrays.asList(cleaned.split("\\s+")));
         words.removeIf(String::isEmpty);
@@ -64,12 +64,12 @@ final class Command {
         for (String w : words) low.add(normalize(w));
         joinSplitNames(words, low);
 
-        // Leading verbs and fillers: "открой", "найди-ка мне", "хочу посмотреть".
+        // Leading verbs and fillers: "otwórz", "znajdź mi", "chcę obejrzeć".
         while (!low.isEmpty() && (VERBS.contains(low.get(0)) || FILLERS.contains(low.get(0)))) {
             words.remove(0);
             low.remove(0);
         }
-        // "найди пожалуйста на ютубе …": fillers go from the middle too, from both lists alike.
+        // "znajdź proszę na youtube …": fillers go from the middle too, from both lists alike.
         for (int i = low.size() - 1; i >= 0; i--) {
             if (FILLERS.contains(low.get(i))) {
                 words.remove(i);
@@ -82,14 +82,14 @@ final class Command {
             Target t = appOf(low.get(i));
             if (t == null) continue;
             boolean afterPreposition = i > 0 && PREPOSITIONS.contains(low.get(i - 1));
-            // An app right after the verb, or the whole phrase. Elsewhere only "на/в …", so
-            // "Аладдин и волшебная лампа" stays a title.
+            // An app right after the verb, or the whole phrase. Elsewhere only "na/w …", so
+            // "Aladyn i czarodziejska lampa" stays a title.
             if (afterPreposition || i == 0) {
                 named = t;
                 int from = afterPreposition ? i - 1 : i;
                 int to = i + 1;
-                // "вк видео", "vk video": the second word is part of the name.
-                if (t == Target.VK && to < low.size() && (low.get(to).equals("видео") || low.get(to).equals("video"))) to++;
+                // "vk video", "wk wideo": the second word is part of the name.
+                if (t == Target.VK && to < low.size() && (low.get(to).equals("wideo") || low.get(to).equals("video"))) to++;
                 words.subList(from, to).clear();
                 low.subList(from, to).clear();
                 break;
@@ -106,18 +106,18 @@ final class Command {
         return new Command(Action.SEARCH, fallback, query, true);
     }
 
-    /** Lower case, "е" for "ё", and no "-ка": "поищи-ка" is "поищи". */
+    /** Lower case. */
     private static String normalize(String word) {
-        return word.toLowerCase(Locale.forLanguageTag("ru")).replace('ё', 'е').replaceAll("-ка$", "");
+        return word.toLowerCase(Locale.forLanguageTag("pl"));
     }
 
-    /** "you tube", "ю туб", "кино поиск", "ру туб", "vk video" spoken apart → one word. */
+    /** "you tube", "ju tub", "kino poisk", "ru tube" spoken apart → one word. */
     private static void joinSplitNames(List<String> words, List<String> low) {
         for (int i = 0; i + 1 < low.size(); i++) {
             String a = low.get(i), b = low.get(i + 1);
-            boolean join = ((a.equals("you") || a.equals("ю")) && (b.startsWith("tube") || b.startsWith("туб")))
-                    || (a.equals("кино") && b.startsWith("поиск"))
-                    || ((a.equals("ру") || a.equals("ru")) && (b.startsWith("туб") || b.startsWith("tube")));
+            boolean join = ((a.equals("you") || a.equals("ju")) && (b.startsWith("tub") || b.startsWith("tjub")))
+                    || (a.equals("kino") && (b.startsWith("poisk") || b.startsWith("pojsk")))
+                    || (a.equals("ru") && (b.startsWith("tub") || b.startsWith("tjub")));
             if (join) {
                 words.set(i, words.get(i) + words.get(i + 1));
                 words.remove(i + 1);
@@ -132,14 +132,14 @@ final class Command {
         if (word.equals("lampa")) return Target.LAMPA;
         if (word.startsWith("rutub")) return Target.RUTUBE;
         if (word.startsWith("kinopoisk")) return Target.KINOPOISK;
-        if (word.equals("vk") || word.equals("вк") || word.equals("вэка") || word.startsWith("вконтакт")
-                || word.equals("контакте")) return Target.VK;
-        String stem = word.replaceAll("[аеиоуыэюяь]+$", "");
-        if (stem.length() >= 3 && distance(stem, "ютуб") <= 1) return Target.YOUTUBE;
-        if (stem.equals("ютьюб") || stem.equals("ютюб") || stem.equals("ютубчик")) return Target.YOUTUBE;
-        if (stem.length() >= 4 && distance(stem, "рутуб") <= 1) return Target.RUTUBE;
-        if (stem.length() >= 7 && distance(stem, "кинопоиск") <= 2) return Target.KINOPOISK;
-        if (stem.equals("ламп") || stem.equals("лампочк")) return Target.LAMPA;
+        if (word.equals("vk") || word.equals("wk") || word.startsWith("vkontakt") || word.startsWith("wkontakt"))
+            return Target.VK;
+        // "youtubie", "lampie", "kinopoisku": Polish case endings off.
+        String stem = word.replaceAll("[aeiouyąęó]+$", "");
+        if (stem.length() >= 4 && (distance(stem, "jutub") <= 1 || distance(stem, "jutjub") <= 1)) return Target.YOUTUBE;
+        if (stem.length() >= 4 && (distance(stem, "rutub") <= 1 || distance(stem, "rutjub") <= 1)) return Target.RUTUBE;
+        if (stem.length() >= 7 && distance(stem, "kinopoisk") <= 2) return Target.KINOPOISK;
+        if (stem.equals("lamp") || stem.equals("lampk")) return Target.LAMPA;
         return null;
     }
 
@@ -159,6 +159,6 @@ final class Command {
 
     @Override
     public String toString() {
-        return action + " " + target + (guessed ? "?" : "") + " «" + query + "»";
+        return action + " " + target + (guessed ? "?" : "") + " „" + query + "”";
     }
 }
